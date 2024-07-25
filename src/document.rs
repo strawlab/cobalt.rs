@@ -267,7 +267,10 @@ impl Document {
         root_url: &str,
         writer: &mut sitemap::writer::UrlSetWriter<T>,
     ) -> Result<()> {
-        let link = format!("{}/{}", root_url, &self.url_path);
+        let link1 = format!("{}/{}", root_url, &self.url_path);
+        // Remove "index.html" from sitemap.
+        let link = link1.trim_end_matches("/index.html").to_string();
+
         let mut url = sitemap::structs::UrlEntry::builder();
         url = url.loc(link);
         if let Some(date) = self.front.published_date {
